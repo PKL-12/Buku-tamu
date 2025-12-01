@@ -42,73 +42,66 @@
     </div>
 </div>
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Chart.js v2 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
-    const ctx = document.getElementById("myBarChart");
+    const canvas = document.getElementById("myBarChart");
 
-    if (!ctx) {
-        console.error("Canvas myBarChart tidak ditemukan");
+    if (!canvas) {
+        console.error("Canvas myBarChart tidak ditemukan.");
         return;
     }
 
+    const ctx = canvas.getContext("2d");
+
+    // === GRADIENT BIRU PASTEL ===
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, "#BBDEFB"); // biru pastel muda
+    gradient.addColorStop(1, "#64B5F6"); // biru pastel medium
+
+    const labels = @json($labels);
+    const dataJumlah = @json($jumlah);
+
     new Chart(ctx, {
-        type: 'bar',
+        type: "bar",
         data: {
-            labels: @json($labels),
+            labels: labels,
             datasets: [{
-                label: "Jumlah Tamu",
-                data: @json($jumlah),
-
-                // WARNA-WARNI SETIAP BATANG
-                backgroundColor: [
-                    "#f6c23e", // Jan
-                    "#1cc88a", // Feb
-                    "#36b9cc", // Mar
-                    "#f6c23e", // Apr
-                    "#1cc88a", // Mei
-                    "#36b9cc", // Jun
-                    "#f6c23e", // Jul
-                    "#1cc88a", // Agu
-                    "#36b9cc", // Sep
-                    "#f6c23e", // Okt
-                    "#1cc88a", // Nov
-                    "#36b9cc"  // Des
-                ],
-
-                // BORDER BAR
-                borderColor: "#4e73df",
-                borderWidth: 1
+                label: "",
+                data: dataJumlah,
+                backgroundColor: gradient,
+                borderColor: "transparent",
+                borderWidth: 0,
+                hoverBackgroundColor: gradient
             }]
         },
-
         options: {
             responsive: true,
             maintainAspectRatio: false,
-
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { precision: 0 },
-                    title: {
-                        display: true,
-                        text: 'Jumlah Tamu'
-                    }
-                }
+            legend: {
+                display: false
             },
-
-            plugins: {
-                legend: {
-                    display: false
-                },
-
-                // ANGKA DI ATAS BAR
-                tooltip: {
-                    enabled: true
-                }
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        precision: 0
+                    },
+                    scaleLabel: {
+                        display: false
+                    },
+                    gridLines: {
+                        color: "rgba(0,0,0,0.1)"
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    }
+                }]
             }
         }
     });

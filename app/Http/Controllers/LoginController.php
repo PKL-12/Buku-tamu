@@ -27,7 +27,7 @@ class LoginController extends Controller
             session([
                 'admin_id' => $admin->id,
                 'admin_username' => $admin->username,
-                'admin_name' => $admin->nama_lengkap
+                'admin_name' => $admin->nama
             ]);
 
             return redirect()->route('home');
@@ -58,10 +58,11 @@ class LoginController extends Controller
         ]);
 
         DB::table('admin')->insert([
-            'nama_lengkap' => $request->nama_lengkap,
+            'nama' => $request->nama_lengkap,   // mapping ke nama
             'username' => $request->username,
             'password' => Hash::make($request->password)
-        ]);
+]);
+
 
         return redirect()->route('login')->with('success', 'Akun berhasil dibuat! Silakan login.');
     }

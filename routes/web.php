@@ -44,7 +44,7 @@ Route::get('/tamu/export', [TamuController::class, 'export'])->name('tamu.export
 | Dashboard Admin (Protected)
 |--------------------------------------------------------------------------
 */
-
+Route::get('/statistik', [TamuController::class, 'statistik'])->name('statistik');
 Route::middleware('admin')->group(function () {
 
     Route::get('/dashboard', [TamuController::class, 'dashboard'])->name('dashboard');

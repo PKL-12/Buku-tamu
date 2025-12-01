@@ -101,14 +101,15 @@ public function export(Request $request)
     {
         $monthlyData = [];
         for ($i = 1; $i <= 12; $i++) {
-            $monthlyData[$i] = Tamu::whereMonth('created_at', $i)
-                ->whereYear('created_at', date('Y'))
-                ->count();
+            $monthlyData[$i] = Tamu::whereMonth('tanggal_berkunjung', $i)
+            ->whereYear('tanggal_berkunjung', date('Y'))
+            ->count();
+
         }
 
-        $labels = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+        $labels = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 
-        return view('pages.partials.dashboard-widgets', [
+        return view('home', [
             'labels' => $labels,
             'jumlah' => array_values($monthlyData)
         ]);
@@ -149,14 +150,24 @@ public function export(Request $request)
     // STATISTIK
     // ============================
     public function statistik()
-    {
-        $data = Tamu::selectRaw('YEAR(created_at) as tahun, COUNT(*) as jumlah')
-            ->groupBy('tahun')
-            ->orderBy('tahun', 'asc')
-            ->get();
+{
+    // Ambil data tamu per bulan berdasarkan kolom tanggal_berkunjung
+    $labels = [];
+    $jumlah = [];
 
-        return view('statistik-tamu', compact('data'));
+    for ($i = 1; $i <= 12; $i++) {
+        $labels[] = date("F", mktime(0, 0, 0, $i, 1));
+dd(DB::table('tamu')->count());
+
+        $jumlah[] = \DB::table('tamu')
+            ->whereMonth('tanggal_berkunjung', $i)
+            ->whereYear('tanggal_berkunjung', date('Y'))
+            ->count();
     }
+
+    return view('statistik', compact('labels', 'jumlah'));
+}
+
 
     // ============================
     // HOME DASHBOARD
@@ -170,7 +181,7 @@ public function export(Request $request)
                 ->count();
         }
 
-        $labels = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+        $labels = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 
         return view('pages.home', [
             'labels' => $labels,

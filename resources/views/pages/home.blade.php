@@ -16,7 +16,11 @@
             <div class="container-fluid">
 
                 {{-- Dashboard Widgets --}}
-                @include('pages.partials.dashboard-widgets')
+                @include('pages.partials.dashboard-widgets', [
+                    'labels' => $labels,
+                    'jumlah' => $jumlah
+                    ])
+
 
 
             </div>
