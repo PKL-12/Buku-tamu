@@ -20,6 +20,8 @@ Route::get('/', function () {
 Route::get('/form-tamu', [TamuController::class, 'create'])->name('tamu.form');
 Route::post('/form-tamu', [TamuController::class, 'store'])->name('tamu.store');
 
+Route::get('/success', [TamuController::class, 'success'])->name('tamu.success');
+
 
 /*
 |--------------------------------------------------------------------------
