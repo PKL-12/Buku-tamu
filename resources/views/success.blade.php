@@ -76,12 +76,6 @@
            role="button" aria-label="Isi Data Tamu Lagi">
           Tambah Tamu Baru
         </a>
-
-        <!-- secondary: kembali (link style) -->
-        <a href="{{ url('/') }}"
-           class="block w-full text-center py-2 rounded-lg link-btn text-gray-600 text-sm underline">
-          Kembali ke Beranda
-        </a>
       </div>
     </div>
   </div>
